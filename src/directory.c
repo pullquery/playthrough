@@ -37,22 +37,3 @@ void freeDirectory(Directory* d) {
 	free(d->files);
 }
 
-int main(int argc, char** argv) {
-	Directory current;
-	current.name = argv[1];
-
-	while (1) {
-		initDirectory(&current);
-		printDirectory(current);
-		freeDirectory(&current);
-
-		char query[4096];
-		printf(">> ");
-		scanf("%s", query);
-		printf("\n");
-
-		current.name = query;
-	}
-
-	return 0;
-}

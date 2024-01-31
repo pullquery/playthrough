@@ -12,8 +12,8 @@ typedef struct {
     Mix_Music* audio;
 } Audio;
 
-void initSDL(char* appHint) {
-    SDL_SetHint(SDL_HINT_APP_NAME, appHint);
+void initSDL(char* hint) {
+    SDL_SetHint(SDL_HINT_APP_NAME, hint);
 
     if (SDL_Init(SDL_INIT_AUDIO)) {
         SDL_Log("failed to init SDL: %s\n", SDL_GetError());
@@ -21,8 +21,8 @@ void initSDL(char* appHint) {
     }
 }
 
-void initAudio(char* streamHint) {
-    SDL_SetHint(SDL_HINT_AUDIO_DEVICE_STREAM_NAME, streamHint);
+void initAudio(char* hint) {
+    SDL_SetHint(SDL_HINT_AUDIO_DEVICE_STREAM_NAME, hint);
 
     if (Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 4096) < 0) {
         SDL_Log("failed to open audio: %s\n", Mix_GetError());
@@ -59,20 +59,4 @@ void controlAudio(Audio* a) {
 void freeAudio(Audio* a) {
     Mix_FreeMusic(a->audio);
     Mix_CloseAudio();
-}
-
-
-int main(int argc, char** argv) {
-    initSDL("Player");
-
-    Audio current;
-    current.name = argv[1];
-
-    initAudio(current.name);
-    loadAudio(&current);
-    playAudio(&current);
-    controlAudio(&current);
-    freeAudio(&current);
-
-    return 0;
 }

@@ -1,1 +1,0 @@
-gcc audio.c -o player -l SDL2 -l SDL2_mixer
