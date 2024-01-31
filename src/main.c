@@ -1,10 +1,11 @@
+#include "audio.h"
+#include "directory.h"
+
 int main(int argc, char** argv) {
 	return 0;
 }
 
 /*
-#include <stdio.h>
-
 #include "directory.h"
 
 int main(int argc, char** argv) {
@@ -16,12 +17,7 @@ int main(int argc, char** argv) {
 		printDirectory(current);
 		freeDirectory(&current);
 
-		char query[4096];
-		printf(">> ");
-		scanf("%s", query);
-		printf("\n");
-
-		current.name = query;
+		queryDirectory(&current);
 	}
 
 	return 0;

@@ -37,3 +37,12 @@ void freeDirectory(Directory* d) {
 	free(d->files);
 }
 
+void queryDirectory(Directory* d) {
+	char query[4096];
+
+	printf(">> ");
+	scanf("%s", query);
+	printf("\n");
+
+	d->name = query;
+}
