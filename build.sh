@@ -1,6 +1,0 @@
-gcc \
-src/*.c \
-src/*.h \
--l SDL2 \
--l SDL2_mixer \
--o playthrough

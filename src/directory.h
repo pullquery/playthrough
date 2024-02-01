@@ -10,4 +10,8 @@ void printDirectory(Directory d);
 
 void freeDirectory(Directory* d);
 
-void queryDirectory(Directory* d);
+void freeDirectory(Directory* d);
+
+int isDirectory(char* name);
+
+int isReadable(char* name);

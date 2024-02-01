@@ -37,12 +37,13 @@ void freeDirectory(Directory* d) {
 	free(d->files);
 }
 
-void queryDirectory(Directory* d) {
-	char query[4096];
+int isDirectory(char* name) {
+	struct stat status;
+	int error = stat(name, &status);
 
-	printf(">> ");
-	scanf("%s", query);
-	printf("\n");
+	return S_ISDIR(status.st_mode) == 1;
+}
 
-	d->name = query;
+int isReadable(char* name) {
+	return access(name, R_OK) == 0;
 }

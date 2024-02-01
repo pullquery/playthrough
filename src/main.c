@@ -1,44 +1,46 @@
+#include <stdio.h>
+
 #include "audio.h"
 #include "directory.h"
-
-int main(int argc, char** argv) {
-	return 0;
-}
-
-/*
-#include "directory.h"
-
-int main(int argc, char** argv) {
-	Directory current;
-	current.name = argv[1];
-
-	while (1) {
-		initDirectory(&current);
-		printDirectory(current);
-		freeDirectory(&current);
-
-		queryDirectory(&current);
-	}
-
-	return 0;
-}
-*/
-
-/*
-#include "audio.h"
 
 int main(int argc, char** argv) {
     initSDL("Playthrough");
 
-    Audio current;
-    current.name = argv[1];
+	Directory d;
+	d.name = argv[1];
 
-    initAudio(current.name);
-    loadAudio(&current);
-    playAudio(&current);
-    controlAudio(&current);
-    freeAudio(&current);
+	while (1) {
+		initDirectory(&d);
+		printDirectory(d);
+		freeDirectory(&d);
 
-    return 0;
+		char query[1024];
+		printf(">> ");
+		scanf("%s", query);
+		printf("\n");
+
+		// Cannot read
+		if (!isReadable(query)) {
+			continue;
+		}
+
+		// Play audio
+		if (!isDirectory(query)) {
+			Audio a;
+			a.name = query;
+
+			initAudio(a.name);
+			loadAudio(&a);
+			playAudio(&a);
+			controlAudio(&a);
+			freeAudio(&a);
+
+			continue;
+		}
+
+		// Go to directory
+		d.name = query;
+	}
+
+	return 0;
 }
-*/

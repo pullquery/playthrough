@@ -52,7 +52,11 @@ void playAudio(Audio* a) {
 void controlAudio(Audio* a) {
     while (Mix_PlayingMusic() == 1) {
         a->position = Mix_GetMusicPosition(a->audio);
+
+        printf("\x1b[1F");
+        printf("\x1b[2K");
         printf("%f / %f\n", a->position, a->length);
+
         sleep(1);
     }
 }
