@@ -5,4 +5,4 @@
 # -l SDL2_mixer \
 # -o playthrough
 
-gcc src/output.c -o interface
+gcc src/output.c -o output
