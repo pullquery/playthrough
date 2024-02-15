@@ -1,46 +1,76 @@
-#include <stdio.h>
+#include <signal.h>
 
 #include "audio.h"
 #include "directory.h"
+#include "output.h"
+#include "input.h"
+
+void defer() {
+	freeInput();
+    exit(0);
+}
 
 int main(int argc, char** argv) {
-    initSDL("Playthrough");
+	signal(SIGINT, defer);
 
 	Directory d;
-	d.name = argv[1];
+	Output o;
 
-	while (1) {
-		initDirectory(&d);
-		printDirectory(d);
-		freeDirectory(&d);
+	initSDL("Playthrough");
 
-		char query[1024];
-		printf(">> ");
-		scanf("%s", query);
-		printf("\n");
+	initInput();
+    char buffer[16];
+    int length = 16;
+    int size;
 
-		// Cannot read
-		if (!isReadable(query)) {
-			continue;
-		}
+	int selected = 0;
 
-		// Play audio
-		if (!isDirectory(query)) {
+	d.name = ".";
+	initDirectory(&d);
+	initOutput(&o);
+	printOutput(o, d.files, d.size, selected);
+
+
+    while ((size = readInput(buffer, length)) > 0) {
+        switch (controlInput(buffer, size)) {
+            case UP:
+				selected--;
+                break;
+            case DOWN:
+				selected++;
+                break;
+            case LEFT:
+				d.name = "..";
+				selected = 0;
+                break;
+            case RIGHT:
+				d.name = d.files[selected];
+				selected = 0;
+                break;
+            case NOPE:
+                break;
+        }
+
+		if (!isDirectory(d.name)) {
 			Audio a;
-			a.name = query;
+			a.name = d.name;
 
 			initAudio(a.name);
 			loadAudio(&a);
 			playAudio(&a);
-			controlAudio(&a);
-			freeAudio(&a);
+			// controlAudio(&a);
+			// freeAudio(&a);
 
+			d.name = ".";
 			continue;
 		}
 
-		// Go to directory
-		d.name = query;
-	}
+		initDirectory(&d);
+		initOutput(&o);
+		printOutput(o, d.files, d.size, selected);
+		d.name = ".";
+    }
 
+	freeDirectory(&d);
 	return 0;
 }
