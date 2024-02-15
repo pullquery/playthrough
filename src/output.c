@@ -18,7 +18,7 @@ void initOutput(Output* o) {
     o->height = (int) win.ws_row;
 }
 
-void outputDirectory(Output o, char** list, int size, int selected) {
+void directoryOutput(Output o, char** list, int size, int selected) {
     printf("\n");
 
     for (int i = 0; i < size; ++i) {
