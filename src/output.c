@@ -8,18 +8,22 @@
 
 void initOutput(Output* o) {
     struct winsize win;
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &win);
+    int ok = ioctl(STDOUT_FILENO, TIOCGWINSZ, &win);
+
+    if (ok == -1) {
+        perror("cannot get terminal size");
+    }
 
     o->width = (int) win.ws_col;
     o->height = (int) win.ws_row;
 }
 
-void printOutput(Output o, char** list, int size, int selected) {
+void outputDirectory(Output o, char** list, int size, int selected) {
     printf("\n");
 
     for (int i = 0; i < size; ++i) {
         if (i == selected) {
-            printf(">>");
+            printf(">");
         }
 
         printf(" ");

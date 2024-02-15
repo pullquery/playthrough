@@ -1,3 +1,5 @@
+#include <sys/types.h>
+
 typedef enum {
     UP,
     DOWN,
@@ -10,6 +12,6 @@ void initInput();
 
 void freeInput();
 
-int readInput(char* buffer, long length);
+ssize_t readInput(char* buffer, size_t length);
 
 Input controlInput(char* buffer, long length);

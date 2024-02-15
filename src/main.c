@@ -20,15 +20,15 @@ int main(int argc, char** argv) {
 
 	initInput();
     char buffer[16];
-    int length = 16;
-    int size;
+    long length = 16;
+    long size;
 
 	int selected = 0;
 
 	d.name = ".";
 	initDirectory(&d);
 	initOutput(&o);
-	printOutput(o, d.files, d.size, selected);
+	directoryOutput(o, d.files, d.size, selected);
 
 
     while ((size = readInput(buffer, length)) > 0) {
@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
 
 		initDirectory(&d);
 		initOutput(&o);
-		printOutput(o, d.files, d.size, selected);
+		directoryOutput(o, d.files, d.size, selected);
 		d.name = ".";
     }
 

@@ -6,10 +6,6 @@ typedef struct {
 
 void initDirectory(Directory* d);
 
-void printDirectory(Directory d);
-
-void freeDirectory(Directory* d);
-
 void freeDirectory(Directory* d);
 
 int isDirectory(char* name);

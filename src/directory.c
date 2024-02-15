@@ -8,24 +8,35 @@
 #include "directory.h"
 
 void initDirectory(Directory* d) {
-	chdir(d->name);
-
-	DIR* stream = opendir(".");
-	struct dirent** entries;
-
-	d->size = scandir(".", &entries, 0, alphasort);
-
-	d->files = calloc(d->size, sizeof(char**));
-	for (int i = 0; i < d->size; ++i) {
-		d->files[i] = entries[i]->d_name;
+	if (chdir(d->name) == 0) {
+		perror("cannot change current working directory");
 	}
 
-	closedir(stream);
-}
+	DIR* stream = opendir(".");
+	if (stream == NULL) {
+		perror("cannot open directory");
+	}
 
-void printDirectory(Directory d) {
-	for (int i = 0; i < d.size; ++i) {
-		printf("%s\n", d.files[i]);
+	struct dirent** entries;
+	int size = scandir(".", &entries, 0, alphasort);
+	if (size < 0) {
+		perror("cannot read directory");
+	} else {
+		d->size = size;
+	}
+
+	char** files = calloc(d->size, sizeof(char**));
+	if (files == NULL) {
+		perror("cannot allocate memory for file name list");
+	} else {
+		d->files = files;
+		for (int i = 0; i < d->size; ++i) {
+			d->files[i] = entries[i]->d_name;
+		}
+	}
+
+	if (closedir(stream) == -1) {
+		perror("cannot close directory");
 	}
 }
 
@@ -35,11 +46,20 @@ void freeDirectory(Directory* d) {
 
 int isDirectory(char* name) {
 	struct stat status;
-	int error = stat(name, &status);
+
+	if (stat(name, &status) != 0) {
+		perror("cannot get status of file");
+	}
 
 	return S_ISDIR(status.st_mode) == 1;
 }
 
 int isReadable(char* name) {
-	return access(name, R_OK) == 0;
+	int ok = access(name, R_OK);
+
+	if (ok == -1) {
+		perror("cannot test for access to file");
+	}
+
+	return ok == 0;
 }

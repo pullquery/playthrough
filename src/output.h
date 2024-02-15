@@ -5,4 +5,4 @@ typedef struct {
 
 void initOutput(Output* o);
 
-void printOutput(Output o, char** list, int size, int selected);
+void directoryOutput(Output o, char** list, int size, int selected);

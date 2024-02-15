@@ -1,25 +1,44 @@
+#include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 #include <termios.h>
+
+#include <sys/types.h>
 
 #include "input.h"
 
 void initInput() {
     struct termios attr;
-    tcgetattr(STDIN_FILENO, &attr);
+    if (tcgetattr(STDIN_FILENO, &attr) == -1) {
+        perror("cannot get terminal attribute");
+    }
+
     attr.c_lflag &= ~(ICANON | ECHO);
-    tcsetattr(STDIN_FILENO, TCSANOW, &attr);
+    if (tcsetattr(STDIN_FILENO, TCSANOW, &attr) == -1) {
+        perror("cannot set terminal attribute");
+    }
 }
 
 void freeInput() {
     struct termios attr;
-    tcgetattr(STDIN_FILENO, &attr);
+    if (tcgetattr(STDIN_FILENO, &attr) == -1) {
+        perror("cannot get terminal attribute");
+    }
+
     attr.c_lflag |= (ICANON | ECHO);
-    tcsetattr(STDIN_FILENO, TCSANOW, &attr);
+    if (tcsetattr(STDIN_FILENO, TCSANOW, &attr) == -1) {
+        perror("cannot set terminal attribute");
+    }
 }
 
-int readInput(char* buffer, long length) {
-    return read(STDIN_FILENO, buffer, length);
+ssize_t readInput(char* buffer, size_t length) {
+    ssize_t size = read(STDIN_FILENO, buffer, length);
+
+    if (size == -1) {
+        perror("cannot read keyboard input from standard input");
+    }
+
+    return size;
 }
 
 Input controlInput(char* buffer, long length) {
