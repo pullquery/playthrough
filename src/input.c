@@ -2,13 +2,7 @@
 #include <unistd.h>
 #include <termios.h>
 
-typedef enum {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT,
-    NOPE,
-} Input;
+#include "input.h"
 
 void initInput() {
     struct termios attr;

@@ -4,10 +4,7 @@
 
 #include <sys/ioctl.h>
 
-typedef struct {
-    int width;
-    int height;
-} Output;
+#include "output.h"
 
 void initOutput(Output* o) {
     struct winsize win;

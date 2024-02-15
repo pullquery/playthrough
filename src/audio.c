@@ -5,12 +5,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 
-typedef struct {
-    char* name;
-    double length;
-    double position;
-    Mix_Music* audio;
-} Audio;
+#include "audio.h"
 
 void initSDL(char* hint) {
     SDL_SetHint(SDL_HINT_APP_NAME, hint);

@@ -1,15 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
 #include <dirent.h>
+
 #include <sys/stat.h>
 
-typedef struct {
-	char* name;
-	int size;
-	char** files;
-} Directory;
+#include "directory.h"
 
 void initDirectory(Directory* d) {
 	chdir(d->name);
