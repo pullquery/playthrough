@@ -1,4 +1,4 @@
-#include <signal.h>
+#include <stdlib.h>
 
 #include "audio.h"
 #include "directory.h"
@@ -11,7 +11,7 @@ void defer() {
 }
 
 int main(int argc, char** argv) {
-	signal(SIGINT, defer);
+	atexit(defer);
 
 	Directory d;
 	Output o;
