@@ -8,7 +8,7 @@
 #include "directory.h"
 
 void initDirectory(Directory* d) {
-	if (chdir(d->name) == 0) {
+	if (chdir(d->name) == -1) {
 		perror("cannot change current working directory");
 	}
 
