@@ -24,9 +24,10 @@ void directoryOutput(Output o, char** list, int size, int selected) {
     for (int i = 0; i < size; ++i) {
         if (i == selected) {
             printf(">");
+        } else {
+            printf(" ");
         }
 
-        printf(" ");
         printf("%s\n", list[i]);
     }
 

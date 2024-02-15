@@ -41,7 +41,7 @@ void loadAudio(Audio* a) {
 void playAudio(Audio* a) {
     if (Mix_PlayMusic(a->audio, 1) < 0) {
         SDL_Log("failed to paly audio: %s\n", Mix_GetError());
-        exit(-1);
+        exit(EXIT_FAILURE);
     }
 }
 
