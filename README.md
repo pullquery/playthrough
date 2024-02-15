@@ -1,4 +1,4 @@
 ## To do
-- error handling in main logic
-- optimize main loop
+- Error handling in main logic
+- Optimize main loop
 - Audio control and free logic
