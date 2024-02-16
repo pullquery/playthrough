@@ -34,9 +34,11 @@ int main(int argc, char** argv) {
     while ((size = readInput(buffer, length)) > 0) {
         switch (controlInput(buffer, size)) {
             case UP:
+				if (selected == 0) break;
 				selected--;
                 break;
             case DOWN:
+				if (selected == d.size - 1) break;
 				selected++;
                 break;
             case LEFT:
@@ -45,7 +47,7 @@ int main(int argc, char** argv) {
                 break;
             case RIGHT:
 				d.name = d.files[selected];
-				selected = 0;
+				if (isDirectory(d.name)) selected = 0;
                 break;
             case NOPE:
                 break;

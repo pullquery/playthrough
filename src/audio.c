@@ -13,7 +13,6 @@ void initSDL(char* hint) {
 
     if (SDL_Init(SDL_INIT_AUDIO)) {
         SDL_Log("failed to init SDL: %s\n", SDL_GetError());
-        exit(EXIT_FAILURE);
     }
 }
 
@@ -22,7 +21,6 @@ void initAudio(char* hint) {
 
     if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 4096) < 0) {
         SDL_Log("failed to open audio: %s\n", Mix_GetError());
-        exit(EXIT_FAILURE);
     }
 }
 
@@ -31,7 +29,6 @@ void loadAudio(Audio* a) {
 
     if (a->audio == NULL) {
         SDL_Log("failed to load audio: %s\n", Mix_GetError());
-        exit(EXIT_FAILURE);
     }
 
     a->length = Mix_MusicDuration(a->audio);
@@ -41,7 +38,6 @@ void loadAudio(Audio* a) {
 void playAudio(Audio* a) {
     if (Mix_PlayMusic(a->audio, 1) < 0) {
         SDL_Log("failed to paly audio: %s\n", Mix_GetError());
-        exit(EXIT_FAILURE);
     }
 }
 
