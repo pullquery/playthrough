@@ -13,10 +13,14 @@ void defer() {
 int main(int argc, char** argv) {
 	atexit(defer);
 
-	Directory d;
-	Output o;
+	initAudio("Playthrough");
 
-	initSDL("Playthrough");
+	Directory d;
+	d.name = ".";
+	initDirectory(&d);
+
+	Output o;
+	initOutput(&o);
 
 	initInput();
     char buffer[16];
@@ -24,12 +28,7 @@ int main(int argc, char** argv) {
     long size;
 
 	int selected = 0;
-
-	d.name = ".";
-	initDirectory(&d);
-	initOutput(&o);
 	directoryOutput(o, d.files, d.size, selected);
-
 
     while ((size = readInput(buffer, length)) > 0) {
         switch (controlInput(buffer, size)) {
@@ -57,11 +56,10 @@ int main(int argc, char** argv) {
 			Audio a;
 			a.name = d.name;
 
-			initAudio(a.name);
-			loadAudio(&a);
-			playAudio(&a);
-			// controlAudio(&a);
-			// freeAudio(&a);
+			freeAudio(&a);
+			openAudio(a.name);
+			loadMusic(&a);
+			playMusic(&a);
 
 			d.name = ".";
 			continue;

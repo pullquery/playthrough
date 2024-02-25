@@ -1,3 +1,5 @@
+rm playthrough
+
 gcc \
 src/*.c \
 src/*.h \

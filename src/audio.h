@@ -4,17 +4,17 @@ typedef struct {
     char* name;
     double length;
     double position;
-    Mix_Music* audio;
+    Mix_Music* music;
 } Audio;
-
-void initSDL(char* hint);
 
 void initAudio(char* hint);
 
-void loadAudio(Audio* a);
+void openAudio(char* hint);
 
-void playAudio(Audio* a);
+void loadMusic(Audio* a);
 
-void controlAudio(Audio* a);
+void playMusic(Audio* a);
+
+void freeMusic(Audio* a);
 
 void freeAudio(Audio* a);
