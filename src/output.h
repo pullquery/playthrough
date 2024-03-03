@@ -1,3 +1,6 @@
+#include "audio.h"
+#include "directory.h"
+
 typedef struct {
     int width;
     int height;
@@ -5,4 +8,4 @@ typedef struct {
 
 void initOutput(Output* o);
 
-void directoryOutput(Output o, char** list, int size, int selected);
+void printOutput(Output o, Audio a, Directory d, int selected);

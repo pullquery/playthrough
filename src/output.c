@@ -7,8 +7,6 @@
 
 #include "output.h"
 
-#include "directory.h"
-
 void initOutput(Output* o) {
     struct winsize win;
     int ok = ioctl(STDOUT_FILENO, TIOCGWINSZ, &win);
@@ -43,8 +41,8 @@ void modeOutput(Output o) {
     printf("%s ", mode);
 }
 
-void playingOutput(Output o) {
-    char* playing = "sample.opus";
+void playingOutput(Output o, Audio a) {
+    char* playing = a.name;
 
     for (int i = 0; i < o.width - strlen(playing) - 1; ++i) {
         printf(" ");
@@ -53,26 +51,26 @@ void playingOutput(Output o) {
     printf("%s ", playing);
 }
 
-void directoryOutput(Output o, char** list, int size, int selected) {
+void printOutput(Output o, Audio a, Directory d, int selected) {
     printf("\033[2J");
     printf("\033[H");
 
     modeOutput(o);
 
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < d.size; ++i) {
         if (i == selected) {
             printf(">");
         } else {
             printf(" ");
         }
 
-        if (strncmp(list[i], ".", 1) == 0) {
+        if (strncmp(d.files[i], ".", 1) == 0) {
             beginGrey();
         }
 
-        printf("%s", list[i]);
+        printf("%s", d.files[i]);
 
-        if (isDirectory(list[i]) == 1) {
+        if (isDirectory(d.files[i]) == 1) {
             beginGrey();
             printf("/");
             reset();
@@ -83,7 +81,11 @@ void directoryOutput(Output o, char** list, int size, int selected) {
         reset();
     }
 
-    playingOutput(o);
+    for (int i = 0; i < o.height - d.size - 2; ++i) {
+        printf("\n");
+    }
+
+    playingOutput(o, a);
 
     fflush(stdout);
 }

@@ -1,7 +1,5 @@
 #include <stdlib.h>
 
-#include "audio.h"
-#include "directory.h"
 #include "output.h"
 #include "input.h"
 
@@ -14,6 +12,8 @@ int main(int argc, char** argv) {
 	atexit(defer);
 
 	initAudio("Playthrough");
+	Audio a;
+	a.name = "";
 
 	Directory d;
 	d.name = ".";
@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
     long size;
 
 	int selected = 0;
-	directoryOutput(o, d.files, d.size, selected);
+	printOutput(o, a, d, selected);
 
     while ((size = readInput(buffer, length)) > 0) {
         switch (controlInput(buffer, size)) {
@@ -53,7 +53,6 @@ int main(int argc, char** argv) {
         }
 
 		if (!isDirectory(d.name)) {
-			Audio a;
 			a.name = d.name;
 
 			freeAudio(&a);
@@ -61,13 +60,14 @@ int main(int argc, char** argv) {
 			loadMusic(&a);
 			playMusic(&a);
 
+			printOutput(o, a, d, selected);
 			d.name = ".";
 			continue;
 		}
 
 		initDirectory(&d);
 		initOutput(&o);
-		directoryOutput(o, d.files, d.size, selected);
+		printOutput(o, a, d, selected);
 		d.name = ".";
     }
 
