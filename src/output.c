@@ -85,7 +85,7 @@ void printOutput(Output o, Audio a, Directory d, int selected) {
         printf("\n");
     }
 
-    playingOutput(o, a);
+    // playingOutput(o, a);
 
     fflush(stdout);
 }

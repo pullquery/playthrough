@@ -1,4 +1,3 @@
-#include <SDL2/SDL_audio.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -35,10 +34,21 @@ void loadMusic(Audio* a) {
     a->position = Mix_GetMusicPosition(a->music);
 }
 
+void sample(void *udata, Uint8 *stream, int len) {
+    Audio* a = udata;
+    a->length = Mix_MusicDuration(a->music);
+    a->position = Mix_GetMusicPosition(a->music);
+
+    printf("%f / %f / %s\r", a->position, a->length, a->name);
+    fflush(stdout);
+}
+
 void playMusic(Audio* a) {
     if (Mix_PlayMusic(a->music, 1) < 0) {
         SDL_Log("failed to paly audio: %s\n", Mix_GetError());
     }
+
+    Mix_SetPostMix(sample, a);
 }
 
 void freeMusic(Audio* a) {
