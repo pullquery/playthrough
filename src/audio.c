@@ -18,7 +18,7 @@ void initAudio(char* hint) {
 void openAudio(char* hint) {
     SDL_SetHint(SDL_HINT_AUDIO_DEVICE_STREAM_NAME, hint);
 
-    if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 4096) < 0) {
+    if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 2048) < 0) {
         SDL_Log("failed to open audio: %s\n", Mix_GetError());
     }
 }
