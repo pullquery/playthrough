@@ -34,10 +34,14 @@ void loadMusic(Audio* a) {
     a->position = Mix_GetMusicPosition(a->music);
 }
 
-void sample(void *udata, Uint8 *stream, int len) {
+void handleMusic(void *udata, Uint8 *stream, int len) {
     Audio* a = udata;
     a->length = Mix_MusicDuration(a->music);
     a->position = Mix_GetMusicPosition(a->music);
+
+    if (a->position == a->length) {
+        playMusic(a);
+    }
 
     printf("%f / %f / %s\r", a->position, a->length, a->name);
     fflush(stdout);
@@ -48,7 +52,7 @@ void playMusic(Audio* a) {
         SDL_Log("failed to paly audio: %s\n", Mix_GetError());
     }
 
-    Mix_SetPostMix(sample, a);
+    Mix_SetPostMix(handleMusic, a);
 }
 
 void freeMusic(Audio* a) {
