@@ -1,8 +1,6 @@
-rm playthrough
-
-gcc \
+cc \
 src/*.c \
 src/*.h \
 -l SDL2 \
 -l SDL2_mixer \
--o playthrough
+-o player
